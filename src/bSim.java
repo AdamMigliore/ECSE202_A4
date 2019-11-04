@@ -63,7 +63,6 @@ public class bSim extends GraphicsProgram {
 	 * the number of balls in the simulation
 	 */
 	public void init() {
-		this.resize(WIDTH+OFFSET, HEIGHT + OFFSET);
 		rgen.setSeed((long) 424242);// required from prof. to match simulation parameters
 		setupDisplay();
 		addActionListeners();
@@ -103,7 +102,7 @@ public class bSim extends GraphicsProgram {
 		plane.setFilled(true);
 		plane.setColor(Color.BLACK);
 		add(plane);
-
+		this.resize(WIDTH+inputs.getWidth(), HEIGHT + OFFSET);
 	}
 
 	public void actionPerformed(ActionEvent e) {
