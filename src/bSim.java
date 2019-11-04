@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -42,7 +44,6 @@ public class bSim extends GraphicsProgram {
 	
 	private static final int MINBALLS = 1;
 	private static final int MAXBALLS = 255;
-	
 
 	
 	/**
@@ -90,9 +91,29 @@ public class bSim extends GraphicsProgram {
 	 * resize the window
 	 */
 	private void setupDisplay() {
-		this.resize(WIDTH+OFFSET, HEIGHT + OFFSET);
+		this.resize(WIDTH, HEIGHT + OFFSET);
 		
 		JPanel inputs = new JPanel(new GridLayout(10,1));
+		JPanel options = new JPanel(new GridLayout(1,6));
+		
+		
+		JButton runBTN = new JButton("run");
+		options.add(runBTN);
+		
+		JButton stopBTN = new JButton("stop");
+		options.add(stopBTN);
+		
+		JButton resumeBTN = new JButton("resume");
+		options.add(resumeBTN);
+		
+		JButton quitBTN = new JButton("quit");
+		options.add(quitBTN);
+		
+		JButton stackBTN = new JButton("stack");
+		options.add(stackBTN);
+		
+		JCheckBox traceCBX = new JCheckBox("trace");
+		options.add(traceCBX);
 		
 		inputs.add(new JLabel("General Simulation Parameters"));
 		
@@ -129,6 +150,10 @@ public class bSim extends GraphicsProgram {
 		plane.setFilled(true);
 		plane.setColor(Color.BLACK);
 		add(plane);
+		
+		
+		add(options, BorderLayout.SOUTH);
+		
 	}
 	
 	/**
