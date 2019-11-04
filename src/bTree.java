@@ -8,14 +8,14 @@
 
 public class bTree {
 
-	private static final double DELTASIZE = 0.1;//size difference between balls
+	private static final double DELTASIZE = 0.1;// size difference between balls
 
 	// Instance variables
 
 	private bNode root = null;
-	private boolean running = true;//true if the simulation is currently running
-	private double lastSize = 0;//last balls size
-	private double xPos = 0, yPos = 0;//ypos and xpos to place the balls
+	private boolean running = true;// true if the simulation is currently running
+	private double lastSize = 0;// last balls size
+	private double xPos = 0, yPos = 0;// ypos and xpos to place the balls
 
 	/**
 	 * addNode method - adds a new node by descending to the leaf node using a while
@@ -109,7 +109,7 @@ public class bTree {
 			if (traverse_inorder_isRunning(root.right))
 				return true;
 		}
-		
+
 		return false;
 	}
 
@@ -121,7 +121,8 @@ public class bTree {
 	}
 
 	/**
-	 * Stack the balls in order of smallest to biggest 
+	 * Stack the balls in order of smallest to biggest
+	 * 
 	 * @param root : our root node to check
 	 * @param link : link to the simulation program
 	 */
@@ -154,6 +155,43 @@ public class bTree {
 	public boolean isRunning() {
 		return running;
 	}
+
+	public void stopTree() {
+		traverse_inorder_stopTree(root);
+	}
+
+	private void traverse_inorder_stopTree(bNode root) {
+
+		if (root.left != null) {
+			traverse_inorder_stopTree(root.left);
+		}
+
+		root.iBall.suspend();
+
+		if (root.right != null) {
+			traverse_inorder_stopTree(root.right);
+		}
+
+	}
+
+	public void resumeTree() {
+		traverse_inorder_resumeTree(root);
+	}
+
+	private void traverse_inorder_resumeTree(bNode root) {
+
+		if (root.left != null) {
+			traverse_inorder_resumeTree(root.left);
+		}
+
+		root.iBall.resume();
+
+		if (root.right != null) {
+			traverse_inorder_resumeTree(root.right);
+		}
+
+	}
+
 }
 
 /**

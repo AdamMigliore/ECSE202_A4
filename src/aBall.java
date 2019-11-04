@@ -187,4 +187,5 @@ public class aBall extends Thread {
 	public void moveTo(double x, double y) {
 		myBall.setLocation(x, y);
 	}
+	
 }
