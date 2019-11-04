@@ -192,6 +192,23 @@ public class bTree {
 
 	}
 
+	public void toggleTracePoint(boolean value) {
+		traverse_inorder_addTracePoint(root, value);
+	}
+
+	private void traverse_inorder_addTracePoint(bNode root, boolean value) {
+
+		if (root.left != null) {
+			traverse_inorder_addTracePoint(root.left, value);
+		}
+
+		if (root.right != null) {
+			traverse_inorder_addTracePoint(root.right, value);
+		}
+		
+		root.iBall.toggleDoTrace(value);
+
+	}
 }
 
 /**

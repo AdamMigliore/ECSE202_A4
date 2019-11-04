@@ -51,6 +51,10 @@ public class aBall extends Thread {
 	private int ScrX, // screen coordinates in X
 			ScrY;// screen coordinates in Y
 
+	
+	private bSim link;
+	private boolean doTrace = false;
+	
 	/**
 	 * @param Xi     : initial position X (meters)
 	 * @param Yi     : initial position Y (meters)
@@ -64,7 +68,7 @@ public class aBall extends Thread {
 	 * @param HEIGHT : height of window (pixels)
 	 */
 	public aBall(double Xi, double Yi, double Vo, double theta, double bSize, Color bColor, double bLoss, double scale,
-			int WIDTH, int HEIGHT) {
+			int WIDTH, int HEIGHT, bSim link) {
 		this.Xi = Xi;
 		this.Yi = Yi;
 		this.Vo = Vo;
@@ -75,7 +79,8 @@ public class aBall extends Thread {
 		this.HEIGHT = HEIGHT;
 		this.WIDTH = WIDTH;
 		this.scale = scale;
-
+		this.link =link;
+		
 		createBall();
 		initializeParameters();
 	}
@@ -140,7 +145,10 @@ public class aBall extends Thread {
 		YLast = Y;// save last Y
 
 		myBall.setLocation(ScrX, ScrY);// set the ball location
-
+		
+		if(doTrace) {
+			addTracePoint();
+		}
 	}
 
 	/**
@@ -188,4 +196,14 @@ public class aBall extends Thread {
 		myBall.setLocation(x, y);
 	}
 	
+	public void addTracePoint() {
+		GOval trace = new GOval(myBall.getX() + gUtil.meterToPixels(scale, bSize/2), myBall.getY() + gUtil.meterToPixels(scale, bSize/2), 1,1);
+		trace.setFilled(true);
+		trace.setColor(bColor);
+		link.add(trace);
+	}
+	
+	public void toggleDoTrace(boolean value) {
+		doTrace=value;
+	}
 }
