@@ -41,7 +41,7 @@ public class bSim extends GraphicsProgram {
 	private static final int GP_HEIGHT = 3; // Maximum launch angle (degrees)
 	private RandomGenerator rgen = new RandomGenerator(); // randomGenerator
 	private bTree myTree = new bTree();// our bTree
-	private GLabel message;// label object for the display
+	private JLabel message = new JLabel("Welcome to my simulation");// label object for the display
 
 	private static final int MINBALLS = 1;
 	private static final int MAXBALLS = 255;
@@ -57,7 +57,7 @@ public class bSim extends GraphicsProgram {
 	myInput maxThetaPNL = new myInput("TH MAX:", ThetaMIN, ThetaMAX, ThetaMAX);
 
 	private boolean stopped = false;
-	private boolean simEnable = false;
+	private boolean tracePointToggled = false;
 
 	/**
 	 * the main loop of the simulation which will generate the random parameters for
@@ -70,7 +70,7 @@ public class bSim extends GraphicsProgram {
 	}
 
 	private void setupDisplay() {
-		JPanel inputs = new JPanel(new GridLayout(10, 1));
+		JPanel inputs = new JPanel(new GridLayout(11, 1));
 		JPanel options = new JPanel(new GridLayout(1, 6));
 
 		JButton runBTN = new JButton("run");
@@ -83,9 +83,9 @@ public class bSim extends GraphicsProgram {
 		options.add(quitBTN);
 		JButton stackBTN = new JButton("stack");
 		options.add(stackBTN);
-		JCheckBox traceCBX = new JCheckBox("trace");
-		options.add(traceCBX);
-		add(options, BorderLayout.SOUTH);
+		JButton traceBTN = new JButton("trace");
+		options.add(traceBTN);
+		add(options, SOUTH);
 
 		inputs.add(new JLabel("General Simulation Parameters"));
 		inputs.add(ballsPNL);
@@ -97,7 +97,9 @@ public class bSim extends GraphicsProgram {
 		inputs.add(maxVelPNL);
 		inputs.add(minThetaPNL);
 		inputs.add(maxThetaPNL);
-		add(inputs, BorderLayout.EAST);
+		inputs.add(message);
+		message.setForeground(Color.RED);
+		add(inputs, EAST);
 
 		GRect plane = new GRect(0, HEIGHT, WIDTH, GP_HEIGHT);
 		plane.setFilled(true);
@@ -114,6 +116,7 @@ public class bSim extends GraphicsProgram {
 			stopTree();
 			doStack();
 		} else if (e.getActionCommand().equals("clear")) {
+			stopTree();
 			myTree = new bTree();
 			this.removeAll();
 		} else if (e.getActionCommand().equals("stop")) {
@@ -127,15 +130,17 @@ public class bSim extends GraphicsProgram {
 
 		} else if (e.getActionCommand().equals("quit")) {
 			System.exit(0);
-		}
-	}
-
-	public void itemStateChanged(ItemEvent e) {
-		JCheckBox source = (JCheckBox) e.getSource();
-		if (source.isSelected()) {
-			myTree.toggleTracePoint(true);
-		} else if (!source.isSelected()) {
-			myTree.toggleTracePoint(false);
+		} else if (e.getActionCommand().equals("trace")) {
+			try {
+				if (!tracePointToggled) {
+					myTree.toggleTracePoint(true);
+				} else {
+					myTree.toggleTracePoint(false);
+				}
+			} catch (NullPointerException npe) {
+				tracePointToggled = !tracePointToggled;
+			}
+			message.setText("Trace points are now set to " + tracePointToggled);
 		}
 	}
 
@@ -183,7 +188,7 @@ public class bSim extends GraphicsProgram {
 			// [ThetaMIN,ThetaMAX]
 
 			aBall ball = new aBall(gUtil.pixelsToMeter(SCALE, WIDTH / 2), bSize, Vo, theta, bSize, bColor, bLoss, SCALE,
-					WIDTH, HEIGHT, this);// Generate a new aBall object with it's initial parameters
+					WIDTH, HEIGHT, this, tracePointToggled);// Generate a new aBall object with it's initial parameters
 			add(ball.getBall());// add the ball to the simulation
 			myTree.addNode(ball);
 			ball.start();// start the balls thread

@@ -68,7 +68,7 @@ public class aBall extends Thread {
 	 * @param HEIGHT : height of window (pixels)
 	 */
 	public aBall(double Xi, double Yi, double Vo, double theta, double bSize, Color bColor, double bLoss, double scale,
-			int WIDTH, int HEIGHT, bSim link) {
+			int WIDTH, int HEIGHT, bSim link, boolean tracePointToggled) {
 		this.Xi = Xi;
 		this.Yi = Yi;
 		this.Vo = Vo;
@@ -80,6 +80,7 @@ public class aBall extends Thread {
 		this.WIDTH = WIDTH;
 		this.scale = scale;
 		this.link =link;
+		this.doTrace=tracePointToggled;
 		
 		createBall();
 		initializeParameters();
@@ -197,7 +198,7 @@ public class aBall extends Thread {
 	}
 	
 	public void addTracePoint() {
-		GOval trace = new GOval(myBall.getX() + gUtil.meterToPixels(scale, bSize/2), myBall.getY() + gUtil.meterToPixels(scale, bSize/2), 1,1);
+		GOval trace = new GOval(myBall.getX() + gUtil.meterToPixels(scale, bSize), myBall.getY() + gUtil.meterToPixels(scale, bSize), 1,1);
 		trace.setFilled(true);
 		trace.setColor(bColor);
 		link.add(trace);
