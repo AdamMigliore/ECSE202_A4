@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -63,7 +64,6 @@ public class bSim extends GraphicsProgram {
 	 * the number of balls in the simulation
 	 */
 	public void init() {
-		this.resize(WIDTH+OFFSET, HEIGHT + OFFSET);
 		rgen.setSeed((long) 424242);// required from prof. to match simulation parameters
 		setupDisplay();
 		addActionListeners();
@@ -104,6 +104,7 @@ public class bSim extends GraphicsProgram {
 		plane.setColor(Color.BLACK);
 		add(plane);
 
+		this.resize(WIDTH + inputs.getWidth(), HEIGHT + OFFSET);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -126,6 +127,15 @@ public class bSim extends GraphicsProgram {
 
 		} else if (e.getActionCommand().equals("quit")) {
 			System.exit(0);
+		}
+	}
+
+	public void itemStateChanged(ItemEvent e) {
+		JCheckBox source = (JCheckBox) e.getSource();
+		if (source.isSelected()) {
+			myTree.toggleTracePoint(true);
+		} else if (!source.isSelected()) {
+			myTree.toggleTracePoint(false);
 		}
 	}
 
@@ -173,7 +183,7 @@ public class bSim extends GraphicsProgram {
 			// [ThetaMIN,ThetaMAX]
 
 			aBall ball = new aBall(gUtil.pixelsToMeter(SCALE, WIDTH / 2), bSize, Vo, theta, bSize, bColor, bLoss, SCALE,
-					WIDTH, HEIGHT);// Generate a new aBall object with it's initial parameters
+					WIDTH, HEIGHT, this);// Generate a new aBall object with it's initial parameters
 			add(ball.getBall());// add the ball to the simulation
 			myTree.addNode(ball);
 			ball.start();// start the balls thread
