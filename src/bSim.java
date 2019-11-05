@@ -85,7 +85,7 @@ public class bSim extends GraphicsProgram {
 		options.add(stackBTN);
 		JButton traceBTN = new JButton("trace");
 		options.add(traceBTN);
-		add(options, SOUTH);
+		add(options, NORTH);
 
 		inputs.add(new JLabel("General Simulation Parameters"));
 		inputs.add(ballsPNL);
@@ -101,10 +101,7 @@ public class bSim extends GraphicsProgram {
 		message.setForeground(Color.RED);
 		add(inputs, EAST);
 
-		GRect plane = new GRect(0, HEIGHT, WIDTH, GP_HEIGHT);
-		plane.setFilled(true);
-		plane.setColor(Color.BLACK);
-		add(plane);
+		createPlane();
 
 		this.resize(WIDTH + inputs.getWidth(), HEIGHT + OFFSET);
 	}
@@ -119,6 +116,7 @@ public class bSim extends GraphicsProgram {
 			stopTree();
 			myTree = new bTree();
 			this.removeAll();
+			createPlane();
 		} else if (e.getActionCommand().equals("stop")) {
 			if (!stopped) {
 				stopTree();
@@ -205,6 +203,13 @@ public class bSim extends GraphicsProgram {
 
 	private void resumeTree() {
 		myTree.resumeTree();
+	}
+
+	private void createPlane() {
+		GRect plane = new GRect(0, HEIGHT, WIDTH, GP_HEIGHT);
+		plane.setFilled(true);
+		plane.setColor(Color.BLACK);
+		add(plane);
 	}
 
 }
