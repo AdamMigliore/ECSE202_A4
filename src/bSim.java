@@ -43,21 +43,21 @@ public class bSim extends GraphicsProgram {
 	private bTree myTree = new bTree();// our bTree
 	private JLabel message = new JLabel("Welcome to my simulation");// label object for the display
 
-	private static final int MINBALLS = 1;
-	private static final int MAXBALLS = 255;
+	private static final int MINBALLS = 1;//minimum amount of balls allowed in the simulation
+	private static final int MAXBALLS = 255;//maximum amount of balls allowed in the simulation
 
-	myInput ballsPNL = new myInput("NUMBALLS: ", MINBALLS, MAXBALLS, NUMBALLS);
-	myInput minSizePNL = new myInput("MIN SIZE: ", MINSIZE, MAXSIZE, MINSIZE);
-	myInput maxSizePNL = new myInput("MAX SIZE: ", MINSIZE, MAXSIZE, MAXSIZE);
-	myInput minLossPNL = new myInput("LOSS MIN:", EMIN, EMAX, EMIN);
-	myInput maxLossPNL = new myInput("LOSS MAX:", EMIN, EMAX, EMAX);
-	myInput minVelPNL = new myInput("MIN VEL:", VoMIN, VoMAX, VoMIN);
-	myInput maxVelPNL = new myInput("MAX VEL:", VoMIN, VoMAX, VoMAX);
-	myInput minThetaPNL = new myInput("TH MIN:", ThetaMIN, ThetaMAX, ThetaMIN);
-	myInput maxThetaPNL = new myInput("TH MAX:", ThetaMIN, ThetaMAX, ThetaMAX);
+	myInput ballsPNL = new myInput("NUMBALLS: ", MINBALLS, MAXBALLS, NUMBALLS);//create the input line of the number of balls
+	myInput minSizePNL = new myInput("MIN SIZE: ", MINSIZE, MAXSIZE, MINSIZE);//create the input line of the min size of the balls
+	myInput maxSizePNL = new myInput("MAX SIZE: ", MINSIZE, MAXSIZE, MAXSIZE);//create the input line of the max size of the balls
+	myInput minLossPNL = new myInput("LOSS MIN:", EMIN, EMAX, EMIN);//create the input line of the min loss of the balls
+	myInput maxLossPNL = new myInput("LOSS MAX:", EMIN, EMAX, EMAX);//create the input line of the max loss of the balls
+	myInput minVelPNL = new myInput("MIN VEL:", VoMIN, VoMAX, VoMIN);//create the input line of the min velocity of the balls
+	myInput maxVelPNL = new myInput("MAX VEL:", VoMIN, VoMAX, VoMAX);//create the input line of the max velocity of the balls
+	myInput minThetaPNL = new myInput("TH MIN:", ThetaMIN, ThetaMAX, ThetaMIN);//create the input line of the min theta of the balls
+	myInput maxThetaPNL = new myInput("TH MAX:", ThetaMIN, ThetaMAX, ThetaMAX);//create the input line of the max theta of the balls
 
-	private boolean stopped = false;
-	private boolean tracePointToggled = false;
+	private boolean stopped = false;//boolean is true if the simulation has been stopped; OW false
+	private boolean tracePointToggled = false;//boolean is true if the tracepoints have been toggled; OW false
 
 	/**
 	 * the main loop of the simulation which will generate the random parameters for
@@ -69,6 +69,9 @@ public class bSim extends GraphicsProgram {
 		addActionListeners();
 	}
 
+	/**
+	 * Method that sets up the display used by the simulation
+	 */
 	private void setupDisplay() {
 		JPanel inputs = new JPanel(new GridLayout(11, 1));
 		JPanel options = new JPanel(new GridLayout(1, 6));
@@ -106,18 +109,21 @@ public class bSim extends GraphicsProgram {
 		this.resize(WIDTH + inputs.getWidth(), HEIGHT + OFFSET);
 	}
 
+	/**
+	 *Method that concers all action events in the application
+	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("run")) {
+		if (e.getActionCommand().equals("run")) {//run the simulation
 			doSim();
-		} else if (e.getActionCommand().equals("stack")) {
+		} else if (e.getActionCommand().equals("stack")) {//stack the balls
 			stopTree();
 			doStack();
-		} else if (e.getActionCommand().equals("clear")) {
+		} else if (e.getActionCommand().equals("clear")) {//clear the simulation
 			stopTree();
 			myTree = new bTree();
 			this.removeAll();
 			createPlane();
-		} else if (e.getActionCommand().equals("stop")) {
+		} else if (e.getActionCommand().equals("stop")) {//pause the simulation
 			if (!stopped) {
 				stopTree();
 				stopped = true;
@@ -126,9 +132,9 @@ public class bSim extends GraphicsProgram {
 				stopped = false;
 			}
 
-		} else if (e.getActionCommand().equals("quit")) {
+		} else if (e.getActionCommand().equals("quit")) {//quit the application
 			System.exit(0);
-		} else if (e.getActionCommand().equals("trace")) {
+		} else if (e.getActionCommand().equals("trace")) {//toggle tracepoints
 			try {
 				if (!tracePointToggled) {
 					myTree.toggleTracePoint(true);
@@ -156,6 +162,9 @@ public class bSim extends GraphicsProgram {
 		return HEIGHT;
 	}
 
+	/**
+	 * method that contains the simulation
+	 */
 	private void doSim() {
 		for (int i = 0; i < ballsPNL.getTextFieldValue(); i++) {
 			double bSize = rgen.nextDouble(minSizePNL.getTextFieldValue(), maxSizePNL.getTextFieldValue()); // randomly
@@ -193,18 +202,30 @@ public class bSim extends GraphicsProgram {
 		}
 	}
 
+	/**
+	 * method that contains the stacking of the balls
+	 */
 	private void doStack() {
 		myTree.stackBalls(this);
 	}
 
+	/**
+	 * method that pauses every ball in the tree
+	 */
 	private void stopTree() {
 		myTree.stopTree();
 	}
 
+	/**
+	 * method that resumes every ball in the tree
+	 */
 	private void resumeTree() {
 		myTree.resumeTree();
 	}
 
+	/**
+	 * method to create a plane
+	 */
 	private void createPlane() {
 		GRect plane = new GRect(0, HEIGHT, WIDTH, GP_HEIGHT);
 		plane.setFilled(true);

@@ -52,8 +52,8 @@ public class aBall extends Thread {
 			ScrY;// screen coordinates in Y
 
 	
-	private bSim link;
-	private boolean doTrace = false;
+	private bSim link;//link to our simulation
+	private boolean doTrace = false;//boolean to tell the simulation to draw traces or not
 	
 	/**
 	 * @param Xi     : initial position X (meters)
@@ -66,6 +66,8 @@ public class aBall extends Thread {
 	 * @param scale  : scale of simulation (pixels/meters)
 	 * @param WIDTH  : width of window (pixels)
 	 * @param HEIGHT : height of window (pixels)
+	 * @param link	 : link to the main application 
+	 * @param tracePointToggled : boolean to initially know if the ball should draw traces
 	 */
 	public aBall(double Xi, double Yi, double Vo, double theta, double bSize, Color bColor, double bLoss, double scale,
 			int WIDTH, int HEIGHT, bSim link, boolean tracePointToggled) {
@@ -197,6 +199,9 @@ public class aBall extends Thread {
 		myBall.setLocation(x, y);
 	}
 	
+	/**
+	 * add a trace point to the simulaiton following the ball
+	 */
 	public void addTracePoint() {
 		GOval trace = new GOval(myBall.getX() + gUtil.meterToPixels(scale, bSize), myBall.getY() + gUtil.meterToPixels(scale, bSize), 1,1);
 		trace.setFilled(true);
@@ -204,6 +209,9 @@ public class aBall extends Thread {
 		link.add(trace);
 	}
 	
+	/**
+	 * @param boolean value : sets doTrace to the value specified
+	 */
 	public void toggleDoTrace(boolean value) {
 		doTrace=value;
 	}

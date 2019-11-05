@@ -156,10 +156,16 @@ public class bTree {
 		return running;
 	}
 
+	/**
+	 * Wrapper class to start suspending the simulation for each ball
+	 */
 	public void stopTree() {
 		traverse_inorder_stopTree(root);
 	}
 
+	/**
+	 * @param root : current node we are looking at
+	 */
 	private void traverse_inorder_stopTree(bNode root) {
 
 		if (root.left != null) {
@@ -174,10 +180,16 @@ public class bTree {
 
 	}
 
+	/**
+	 * Wrapper class to start resume the simulation for each ball
+	 */
 	public void resumeTree() {
 		traverse_inorder_resumeTree(root);
 	}
 
+	/**
+	 * @param root : current node we are looking at
+	 */
 	private void traverse_inorder_resumeTree(bNode root) {
 
 		if (root.left != null) {
@@ -192,10 +204,18 @@ public class bTree {
 
 	}
 
+	/**
+	 * Wrapper class to toggle the tracepoints for each ball
+	 * @param value : value to which to set the boolean of the tracePoint in aBall
+	 */
 	public void toggleTracePoint(boolean value) {
 		traverse_inorder_addTracePoint(root, value);
 	}
 
+	/**
+	 * @param root : current node we are looking at
+	 * @param value : value to which to set the boolean of the tracePoint in aBall
+	 */
 	private void traverse_inorder_addTracePoint(bNode root, boolean value) {
 
 		if (root.left != null) {
@@ -205,7 +225,7 @@ public class bTree {
 		if (root.right != null) {
 			traverse_inorder_addTracePoint(root.right, value);
 		}
-		
+
 		root.iBall.toggleDoTrace(value);
 
 	}
